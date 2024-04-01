@@ -69,21 +69,17 @@ class Helpers:
 
     @staticmethod
     def get_negotiate_url(url):
-        querystring = ""
+        querystring = "negotiateVersion=1"
         if Helpers.has_querystring(url):
             url, querystring = Helpers.split_querystring(url)
 
         url_parts = parse.urlsplit(Helpers.websocket_to_http(url))
 
-        negotiate_suffix = "negotiate"\
-            if url_parts.path.endswith('/')\
-            else "/negotiate"
+        negotiate_suffix = "negotiate" if url_parts.path.endswith('/') else "/negotiate"
 
         url_parts = url_parts._replace(path=url_parts.path + negotiate_suffix)
 
-        return parse.urlunsplit(url_parts) \
-            if querystring == "" else\
-            parse.urlunsplit(url_parts) + "?" + querystring
+        return parse.urlunsplit(url_parts) if querystring == "" else parse.urlunsplit(url_parts) + "?" + querystring
 
     @staticmethod
     def encode_connection_id(url, id):
