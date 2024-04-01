@@ -4,8 +4,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="signalrcore",
-    version="0.9.6",
+    name="signalrcore-xy",
+    version="1.0.0",
     author="mandrewcito",
     author_email="anbaalo@gmail.com",
     description="A Python SignalR Core client(json and messagepack), with invocation auth and two way streaming. Compatible with azure / serverless functions. Also with automatic reconnect and manually reconnect.",
@@ -16,7 +16,7 @@ setuptools.setup(
     url="https://github.com/mandrewcito/signalrcore",
     packages=setuptools.find_packages(),
     classifiers=[
-        "Programming Language :: Python :: 3.6"
+        "Programming Language :: Python :: 3.10"
     ],
     install_requires=[
         "requests>=2.22.0",

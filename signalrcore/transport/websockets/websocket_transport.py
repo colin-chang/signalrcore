@@ -105,7 +105,7 @@ class WebsocketTransport(BaseTransport):
 
         if "connectionId" in data.keys():
             self.url = Helpers.encode_connection_id(
-                self.url, data["connectionId"])
+                self.url, data["connectionToken"])
 
         # Azure
         if 'url' in data.keys() and 'accessToken' in data.keys():

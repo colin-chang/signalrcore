@@ -1,20 +1,21 @@
 import uuid
 from typing import Callable
-from signalrcore.messages.message_type import MessageType
-from signalrcore.messages.stream_invocation_message\
-    import StreamInvocationMessage
 from .errors import HubConnectionError
-from signalrcore.helpers import Helpers
 from .handlers import StreamHandler, InvocationHandler
-from ..transport.websockets.websocket_transport import WebsocketTransport
 from ..helpers import Helpers
-from ..subject import Subject
+from ..messages.message_type import MessageType
 from ..messages.invocation_message import InvocationMessage
+from ..messages.stream_invocation_message import StreamInvocationMessage
+from ..subject import Subject
+from ..transport.websockets.connection import ConnectionState
+from ..transport.websockets.websocket_transport import WebsocketTransport
+
 
 class InvocationResult(object):
     def __init__(self, invocation_id) -> None:
         self.invocation_id = invocation_id
         self.message = None
+
 
 class BaseHubConnection(object):
     def __init__(
@@ -137,20 +138,18 @@ class BaseHubConnection(object):
                     InvocationHandler(
                         message.invocation_id,
                         on_invocation))
-            
+
             self.transport.send(message)
             result.message = message
-        
+
         if type(arguments) is Subject:
             arguments.connection = self
             arguments.target = method
             arguments.start()
             result.invocation_id = arguments.invocation_id
             result.message = arguments
-        
 
         return result
-
 
     def on_message(self, messages):
         for message in messages:
@@ -258,4 +257,11 @@ class BaseHubConnection(object):
                 event_params,
                 headers=self.headers))
         return stream_obj
-    
+
+    @property
+    def state(self):
+        return self.transport.state
+
+    @property
+    def ready(self):
+        return self.state == ConnectionState.connected
