@@ -9,6 +9,22 @@
 
 ![logo alt](https://raw.githubusercontent.com/mandrewcito/signalrcore/master/docs/img/logo_temp.128.svg.png)
 
+# 改进
+在[源库](https://pypi.org/project/signalrcore/)基础上修正了如下问题以兼容新版`signalR(.NET 6.0)`：
+1. 补充了`negotiateVersion=1` 参数
+2. 使用`signalR`链接`connectToken`参数替换`connectionId`
+3. `hubConnection`扩展`state`属性表示连接状态，扩展`ready`属性表示是否已连接
+
+# 编译发布
+```bash
+# 编译
+python3 setup.py sdist
+python3 setup.py bdist_wheel
+
+# 发布
+python3 -m pip install --upgrade twine
+python3 -m twine upload dist/*
+```
 
 # Links 
 
